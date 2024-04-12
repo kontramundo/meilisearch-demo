@@ -23,7 +23,7 @@
 
                         <div class="relative md:w-1/4 w-full">
                             <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" wire:model.live="category">
-                                <option selected>Choose a category</option>
+                                <option value="" selected>Choose a category</option>
                                 @foreach($categories AS $key => $value)
                                     <option value="{{ $key }}">{{ ucfirst($value) }}</option>
                                 @endforeach
@@ -76,7 +76,7 @@
                                             {{ $post->content }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{ $post->publised ? 'Activo' : 'Inactivo' }}
+                                            {{ $post->published ? 'Active' : 'Inactive' }}
                                         </td>
                                         <td class="px-6 py-4 capitalize">
                                             {{ $post->category->name }}

@@ -17,6 +17,9 @@ class Posts extends Component
     public $search = '';
     public $category;
 
+    public $sortField = 'published';
+    public $sortDirection = 'asc';
+
 
     public function mount()
     {
@@ -25,10 +28,16 @@ class Posts extends Component
 
     public function render()
     {
-        $posts = Post::where('title', 'like', '%' . $this->search . '%')
-            ->when($this->category, function ($query) {
-                $query->whereCategoryId($this->category);
-            })->paginate(10);
+        $posts = Post::search($this->search, function ($meilisearch, $query, $options) {
+
+            if ($this->category) {
+                $options['filter'] = 'category.id = "' . $this->category . '"';
+            }
+
+            $options['sort'] = [$this->sortField . ':' . $this->sortDirection];
+
+            return $meilisearch->search($query, $options);
+        })->paginate(10);
 
 
         return view('livewire.posts', compact('posts'));
