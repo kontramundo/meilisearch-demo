@@ -22,7 +22,7 @@ class Post extends Model
     ];
 
     protected $with = [
-        'category'
+        'category', 'user'
     ];
 
     public function category(): BelongsTo
@@ -37,8 +37,6 @@ class Post extends Model
 
     public function toSearchableArray(): array
     {
-        $this->loadMissing('category');
-
         return [
             'title' => $this->title,
             'slug' => $this->slug,
